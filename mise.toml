@@ -1,0 +1,106 @@
+# Every tool the project runs, at one exact version each. mise reads this file;
+# mise.lock holds the checksums. A new machine needs only mise and `mise run setup`.
+
+[tools]
+# The engine. The C++ classes are built for this minor version's API (native/SConstruct,
+# bin/game.gdextension) against godot-cpp at GODOT_CPP_REF below; when this pin moves to
+# another minor version, move those with it (README, "Versions").
+godot = "4.7.2-stable"
+# The GDScript formatter (the linter, gdlint, comes with gdtoolkit).
+"github:GDQuest/GDScript-formatter" = { version = "0.28.0", bin = "gdscript-formatter" }
+# gdtoolkit is a Python package; mise installs it with uv, which is pinned here too.
+"pipx:gdtoolkit" = "4.5.0"
+# The Python type checker (mypy.ini).
+"pipx:mypy" = "2.4.1"
+uv = "0.13.9"
+# The tools in tools/ use only the standard library.
+python = "3.15.2"
+ruff = "0.17.6"
+# The C++ classes' build system.
+"pipx:scons" = "4.11.1"
+# C++ formatting and checking. Delete these two with native/ if the project has no C++.
+"conda:clang-format" = "23.1.6"
+"conda:clang-tools" = "23.1.6"
+
+[env]
+# Python reads and writes UTF-8 whatever the system's code page is (Windows' is not UTF-8).
+PYTHONUTF8 = "1"
+# The godot-cpp commit tools/fetch_godot_cpp.py downloads: the release tagged 10.0.0-stable.
+# godot-cpp has its own version numbers since 10.0 and one release builds for several Godot
+# versions; which one is `api_version` in native/SConstruct.
+GODOT_CPP_REF = "507ed9d840c01a3c5b2a39af8bb4000bfac30bf5"
+
+# The tasks run under the shell mise picks for the platform (sh on macOS, cmd on Windows), so each
+# command is a plain program with arguments: no pipe, no quote, no glob.
+[tasks.setup]
+description = "Make a fresh clone ready: tools, git hook, the C++ classes, first import"
+run = [
+  "mise install",
+  "python tools/git_hook.py",
+  "mise run build",
+  "python tools/run_tests.py --import-only",
+]
+
+[tasks.fetch-godot-cpp]
+description = "Download godot-cpp at the pinned commit into native/godot-cpp, unless it is there"
+run = "python tools/fetch_godot_cpp.py"
+
+[tasks.build]
+description = "Build the C++ classes into bin"
+depends = ["fetch-godot-cpp"]
+run = "scons -C native"
+
+[tasks.play]
+description = "Run the game: arrow keys or W, A, S, D to turn, P to pause, Enter to restart"
+depends = ["build"]
+run = "python tools/engine.py --path ."
+
+[tasks.bot]
+description = "Run the game with the C++ bot playing it"
+depends = ["build"]
+run = "python tools/engine.py --path . -- --bot"
+
+[tasks.export-templates]
+description = "Download the engine's export templates (about 1.3 GB) for the pinned version, unless they are installed"
+run = "python tools/export_templates.py"
+
+[tasks.export]
+description = "Export a release build for this computer's platform into build/ (needs the export templates)"
+depends = ["fetch-godot-cpp"]
+run = "python tools/export.py"
+
+[tasks.test]
+description = "The gdUnit4 tests named after --, or every test: mise run test -- snake_game '*scene'"
+depends = ["build"]
+run = "python tools/run_tests.py"
+
+[tasks.check]
+description = "Every check: layout, lint and every test"
+depends = ["format-check", "lint", "test"]
+
+[tasks.format]
+description = "Lay out all GDScript, Python and C++, then load every script to prove it still parses"
+run = [
+  "gdscript-formatter --max-line-length 100 scripts tests tools",
+  "ruff format .",
+  "python tools/clang_format.py",
+  "python tools/engine.py --headless --path . --script res://tools/load_all_scripts.gd",
+]
+
+[tasks.format-check]
+description = "Fail if any GDScript, Python or C++ is not laid out as the formatters would; changes nothing"
+run = [
+  "gdscript-formatter --check --max-line-length 100 scripts tests tools",
+  "ruff format --check .",
+  "python tools/clang_format.py --check",
+]
+
+[tasks.lint]
+description = "Fail on what gdlint (GDScript), ruff or mypy (Python) or clang-tidy (C++) reports; the rules are .gdlintrc, ruff.toml, mypy.ini and .clang-tidy"
+depends = ["build"]
+run = [
+  "gdlint scripts tests tools",
+  "ruff check .",
+  "mypy",
+  "python tools/clang_tidy.py",
+]

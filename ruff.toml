@@ -1,0 +1,10 @@
+# ruff formats and lints the Python in tools/. The target is the Python mise.toml pins.
+line-length = 100
+target-version = "py315"
+# The downloaded godot-cpp is not ours to lint or format.
+extend-exclude = ["native/godot-cpp"]
+
+[lint]
+# ruff's default rules, plus the size and branching rules at their default limits: a
+# function's complexity (10), returns (6), branches (12), arguments (5) and statements (50).
+extend-select = ["C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915"]

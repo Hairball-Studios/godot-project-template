@@ -1,0 +1,2 @@
+# Normalize text line endings; the project is edited on macOS and Windows.
+* text=auto eol=lf

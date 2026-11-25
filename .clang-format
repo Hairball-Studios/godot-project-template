@@ -1,0 +1,23 @@
+# clang-format (pinned in mise.toml) for the project's own C++.
+# Godot's own C++ style (LLVM's base with tabs, attached braces, a spaced braced list,
+# pointers on the name), at 100 columns like the GDScript. The engine's generated
+# gdextension_interface.h is not ours to format.
+BasedOnStyle: LLVM
+UseTab: Always
+IndentWidth: 4
+TabWidth: 4
+ColumnLimit: 100
+AccessModifierOffset: -4
+AlignAfterOpenBracket: DontAlign
+AlignOperands: DontAlign
+AlignTrailingComments: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: Inline
+BreakBeforeBinaryOperators: NonAssignment
+BreakConstructorInitializers: AfterColon
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: false
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 2
+PointerAlignment: Right

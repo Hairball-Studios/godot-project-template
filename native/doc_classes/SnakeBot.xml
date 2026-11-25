@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<class name="SnakeBot" inherits="RefCounted" api_type="extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/godotengine/godot/master/doc/class.xsd">
+	<brief_description>
+		Plays Snake: answers which way the snake should head.
+	</brief_description>
+	<description>
+		A Snake player written in C++, because it searches the whole board on every step. Give it the snake, the food and the board's size, and [method choose_direction] answers with a unit vector. The game uses it when started with [code]--bot[/code] ([code]mise run bot[/code]).
+		[codeblock]
+		var bot := SnakeBot.new()
+		game.turn(bot.choose_direction(game.body, game.food, game.size))
+		[/codeblock]
+	</description>
+	<tutorials>
+	</tutorials>
+	<methods>
+		<method name="choose_direction" qualifiers="const">
+			<return type="Vector2i" />
+			<param index="0" name="body" type="Vector2i[]" />
+			<param index="1" name="food" type="Vector2i" />
+			<param index="2" name="size" type="Vector2i" />
+			<description>
+				The direction, as a unit vector, the snake should move next. [param body] is the snake's cells, head first, on a board [param size] cells across. The way is the shortest free path to [param food]; with no path, it is toward the most open space. A snake with nowhere to go keeps its heading.
+			</description>
+		</method>
+	</methods>
+</class>

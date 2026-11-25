@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bi6o706ix2gcj"]
+
+[ext_resource type="Script" uid="uid://b44h8ajbbj2vl" path="res://scripts/scene_loader.gd" id="1"]
+
+[node name="SceneLoader" type="CanvasLayer" unique_id=749648360]
+process_mode = 3
+layer = 100
+script = ExtResource("1")
+
+[node name="Cover" type="ColorRect" parent="." unique_id=1429896424]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Loading" type="Label" parent="." unique_id=100674880]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Loading"
+horizontal_alignment = 1
+vertical_alignment = 1

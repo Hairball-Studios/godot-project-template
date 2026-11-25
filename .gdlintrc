@@ -1,0 +1,4 @@
+# gdlint (gdtoolkit) reads this file; a rule not named here keeps its default
+# (`gdlint -d` prints them): naming, unused arguments, the official member order,
+# at most 6 returns per function and 1000 lines per file.
+disable: []

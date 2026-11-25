@@ -1,0 +1,52 @@
+# Everything here is made by a tool and can be made again. Nothing here is written by hand.
+
+# --- Godot ---
+# The editor's cache of imported files. Godot rebuilds it when the project is opened.
+.godot/
+# Compiled translations, which Godot writes beside a translation CSV when it imports one.
+*.translation
+
+# --- What the tasks write ---
+# Release builds (mise run export).
+build/
+# Test reports (mise run test).
+reports/
+
+# --- C++ (delete this section with native/ if the project has no C++) ---
+# The godot-cpp source, downloaded by tools/fetch_godot_cpp.py at the commit mise.toml pins.
+native/godot-cpp/
+# The built library for each platform: macOS, Linux, then Windows and its import files.
+bin/*.dylib
+bin/*.so
+bin/*.dll
+bin/*.lib
+bin/*.exp
+# Debug symbols, from a build with symbols turned on: Windows, then macOS.
+bin/*.pdb
+*.dSYM/
+# Compiled object files, one per source file.
+*.o
+*.os
+*.obj
+# Source the build generates from native/doc_classes.
+native/gen/
+# The list of compile commands clang-tidy reads. It holds this computer's paths.
+native/compile_commands.json
+# SCons's own records of what it has built and checked.
+native/.sconsign*.dblite
+native/.sconf_temp/
+native/config.log
+
+# --- Python tools ---
+# Caches of mypy, ruff and Python itself.
+.mypy_cache/
+.ruff_cache/
+__pycache__/
+
+# --- Each person's own computer ---
+# Your own mise settings, which override mise.toml for you alone.
+mise.local.toml
+# Files macOS and editors leave behind.
+.DS_Store
+*.tmp
+*.bak

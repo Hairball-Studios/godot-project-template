@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://wgjbho34bbkk"]
+
+[ext_resource type="Script" uid="uid://cf62uyrdkyda6" path="res://scripts/pause_menu.gd" id="1"]
+
+[node name="PauseMenu" type="CanvasLayer" unique_id=791323052]
+process_mode = 3
+layer = 10
+visible = false
+script = ExtResource("1")
+
+[node name="Dim" type="ColorRect" parent="." unique_id=1987448359]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Center" type="CenterContainer" parent="." unique_id=940864649]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu" type="VBoxContainer" parent="Center" unique_id=256263018]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="Center/Menu" unique_id=1155503189]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Paused"
+horizontal_alignment = 1
+
+[node name="Resume" type="Button" parent="Center/Menu" unique_id=1969918889]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Resume"
+
+[node name="Title" type="Button" parent="Center/Menu" unique_id=1728530419]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Title screen"

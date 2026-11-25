@@ -1,0 +1,32 @@
+#!/bin/sh
+# Every commit passes the formatters' check, and the staged files pass their linters.
+# Git runs this where core.hooksPath is .githooks (`mise run setup` sets it). The hook only
+# checks and never writes: a failed layout check is fixed by `mise run format`.
+root=$(git rev-parse --show-toplevel) || exit 1
+
+# The tools, Python included, are the versions mise.toml pins, so they run only through mise.
+if ! command -v mise >/dev/null 2>&1; then
+    echo "mise is not installed: install it, then run 'mise run setup'" >&2
+    exit 1
+fi
+cd "$root" || exit 1
+mise run format-check || {
+    echo "the code is not laid out as the formatters would: run 'mise run format'" >&2
+    exit 1
+}
+# The whole-tree lint is too slow for every commit: the commit lints what it changes, and
+# `mise run lint` lints the tree.
+# Only the folders `mise run lint` covers: an addon's code is not held to this project's rules.
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+gd_files=$(printf '%s\n' "$staged" | grep -E '^(scripts|tests|tools)/.*\.gd$')
+py_files=$(printf '%s\n' "$staged" | grep -E '^tools/.*\.py$')
+if [ -n "$gd_files" ]; then
+    # shellcheck disable=SC2086 # the paths hold no spaces
+    mise exec -- gdlint $gd_files || exit 1
+fi
+if [ -n "$py_files" ]; then
+    # shellcheck disable=SC2086
+    mise exec -- ruff check $py_files || exit 1
+    # mypy checks all of tools/, since a change in one tool reaches the tools that import it.
+    mise exec -- mypy || exit 1
+fi

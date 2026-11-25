@@ -1,0 +1,43 @@
+# clang-tidy checks the project's own C++ (tools/clang_tidy.py). A short allow-list: every
+# check that is on reports something that matters, and the groups that fire on every line of
+# code written against an engine's API (C-style casts, pointer arithmetic, trailing return
+# types, `auto`, identifier length, magic numbers) are left out.
+Checks: >
+  -*,
+  bugprone-*,
+  -bugprone-easily-swappable-parameters,
+  performance-*,
+  -performance-enum-size,
+  clang-analyzer-*,
+  misc-include-cleaner,
+  misc-const-correctness,
+  readability-function-size,
+  readability-function-cognitive-complexity,
+  readability-isolate-declaration,
+  readability-braces-around-statements,
+  readability-container-size-empty,
+  readability-else-after-return,
+  readability-simplify-boolean-expr,
+  readability-implicit-bool-conversion,
+  readability-avoid-nested-conditional-operator,
+  readability-redundant-member-init,
+  cppcoreguidelines-init-variables,
+  cppcoreguidelines-pro-type-member-init,
+  modernize-use-nullptr,
+  modernize-use-bool-literals,
+  modernize-deprecated-headers,
+  modernize-redundant-void-arg
+WarningsAsErrors: "*"
+# Only the project's own headers, in native/src, are checked where a file includes them;
+# godot-cpp's are not ours.
+HeaderFilterRegex: '.*/native/src/.*'
+CheckOptions:
+  # A function is at most 60 lines; the other size measures are off, since the line count and
+  # the complexity check below already bound a function.
+  readability-function-size.LineThreshold: 60
+  readability-function-size.StatementThreshold: -1
+  readability-function-size.BranchThreshold: -1
+  readability-function-size.ParameterThreshold: -1
+  readability-function-size.NestingThreshold: -1
+  readability-function-size.VariableThreshold: -1
+  readability-function-cognitive-complexity.Threshold: 25

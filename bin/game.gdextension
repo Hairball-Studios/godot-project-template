@@ -1,0 +1,17 @@
+; Tells the engine which library holds the game's C++ classes (native/). `debug` is what the
+; editor and a debug export load, `release` a release export. A macOS or iOS export wants the
+; library inside a .framework: see godot-cpp-template (github.com/godotengine/godot-cpp-template).
+
+[configuration]
+
+entry_symbol = "game_library_init"
+compatibility_minimum = "4.7"
+
+[libraries]
+
+macos.debug = "res://bin/libgame.macos.template_debug.dylib"
+macos.release = "res://bin/libgame.macos.template_release.dylib"
+windows.debug.x86_64 = "res://bin/libgame.windows.template_debug.x86_64.dll"
+windows.release.x86_64 = "res://bin/libgame.windows.template_release.x86_64.dll"
+linux.debug.x86_64 = "res://bin/libgame.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://bin/libgame.linux.template_release.x86_64.so"

@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cjn5j7vfu0yk3"]
+
+[ext_resource type="Script" uid="uid://dsirp7nnejc6l" path="res://scripts/main.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bcssi2xydrcef" path="res://scenes/board_view.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://sggabsjg6tnc" path="res://scenes/hud.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://wgjbho34bbkk" path="res://scenes/pause_menu.tscn" id="4"]
+[ext_resource type="Resource" uid="uid://dnb6vnqobnuh3" path="res://resources/default_settings.tres" id="5"]
+
+[node name="Main" type="Node2D" unique_id=1858548008]
+script = ExtResource("1")
+settings = ExtResource("5")
+
+[node name="BoardView" parent="." unique_id=818342395 instance=ExtResource("2")]
+
+[node name="Hud" parent="." unique_id=1077545079 instance=ExtResource("3")]
+
+[node name="Tick" type="Timer" parent="." unique_id=1745702090]
+wait_time = 0.15
+autostart = true
+
+[node name="PauseMenu" parent="." unique_id=1314824982 instance=ExtResource("4")]

@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bw0ox36vayx27"]
+
+[ext_resource type="Script" uid="uid://g1kcb8qp7r5q" path="res://scripts/title.gd" id="1"]
+
+[node name="Title" type="Control" unique_id=1501000187]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Center" type="CenterContainer" parent="." unique_id=2127089582]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Menu" type="VBoxContainer" parent="Center" unique_id=2062989068]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="Center/Menu" unique_id=1713129144]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Snake"
+horizontal_alignment = 1
+
+[node name="Start" type="Button" parent="Center/Menu" unique_id=104364353]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Start"
+
+[node name="Speed" type="Button" parent="Center/Menu" unique_id=2036842042]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Speed: Normal"
+
+[node name="Quit" type="Button" parent="Center/Menu" unique_id=992506131]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Quit"
+
+[node name="Hint" type="Label" parent="Center/Menu" unique_id=1652438977]
+layout_mode = 2
+text = "Turn: arrow keys, W A S D or the D-pad. Pause: P or Start."
+horizontal_alignment = 1
