@@ -94,6 +94,7 @@ computer.
 | `native/`, `bin/` | The C++ source, and the built library with the `.gdextension` file that tells the engine where it is. |
 | `addons/gdUnit4/` | gdUnit4 6.2.3, copied in unchanged. No formatter or linter is pointed at it. |
 | `.githooks/` | The commit hook. |
+| `.github/workflows/main.yml` | On every push to `main`, runs `setup`, `check`, `export-templates` and `export` on macOS, Windows and Linux, and keeps each release build for 7 days. |
 | `mise.toml`, `mise.lock`, `.mise/` | Tool versions, their checksums, and the tasks. |
 | `.gdlintrc`, `ruff.toml`, `mypy.ini`, `.clang-format`, `.clang-tidy`, `.editorconfig`, `.gitattributes` | Layout and lint rules. |
 | `export_presets.cfg` | The export settings for the three platforms. |

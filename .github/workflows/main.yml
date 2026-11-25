@@ -1,0 +1,52 @@
+# Proves main sets up, passes every check and exports a release on macOS, Windows and Linux,
+# the way a person would on each: `mise run setup`, `check`, `export-templates`, `export`.
+# It runs on what lands on main (a push or a merged pull request), not on other branches.
+
+name: main
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  platform:
+    name: ${{ matrix.os }}
+    strategy:
+      # One platform failing does not stop the others: each says what it found.
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    env:
+      # mise runs the tasks in mise.toml only from a folder it trusts.
+      MISE_TRUSTED_CONFIG_PATHS: ${{ github.workspace }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # Installs mise and the tools mise.toml pins, and caches them between runs.
+      - uses: jdx/mise-action@v5
+        with:
+          version: 2026.11.2
+
+      - name: Setup
+        run: mise run setup
+
+      - name: Check
+        run: mise run check
+
+      - name: Export templates
+        run: mise run export-templates
+
+      - name: Export
+        run: mise run export
+
+      # The release build, to download and play from the run's page.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: game-${{ runner.os }}
+          path: build/
+          retention-days: 7
