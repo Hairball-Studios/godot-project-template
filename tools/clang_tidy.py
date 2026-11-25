@@ -34,9 +34,13 @@ def ask(*words: str) -> str:
 
 def header_flags() -> list[str]:
     """The flags that point clang-tidy at the installed compiler's headers and, on macOS, at the
-    system's SDK."""
+    system's SDK.
+
+    Not on Windows: the conda package brings no clang++ there, so the one asked would be
+    another installed LLVM's (C:\\Program Files\\LLVM, say), whose headers the pinned
+    clang-tidy may not parse. The pinned clang-tidy finds its own headers there."""
     flags: list[str] = []
-    resource_dir = ask("clang++", "-print-resource-dir")
+    resource_dir = "" if sys.platform == "win32" else ask("clang++", "-print-resource-dir")
     if resource_dir:
         flags += [f"--extra-arg=-resource-dir={resource_dir}"]
     if sys.platform == "darwin":

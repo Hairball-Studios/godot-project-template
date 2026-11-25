@@ -19,14 +19,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def find() -> str:
-    """The engine's command: $GODOT, else the one mise pins (`mise which godot`), else the first
-    `godot` on the path."""
-    if os.environ.get("GODOT"):
-        return os.environ["GODOT"]
+def ask_mise(*words: str) -> str:
+    """What `mise` prints for its arguments, or empty where it fails or is not there."""
     try:
         asked = subprocess.run(
-            ["mise", "which", "godot"],
+            ["mise", *words],
             cwd=ROOT,
             capture_output=True,
             text=True,
@@ -34,9 +31,27 @@ def find() -> str:
             check=False,
         )
     except OSError, subprocess.TimeoutExpired:
-        asked = None
-    if asked is not None and asked.returncode == 0 and asked.stdout.strip():
-        return asked.stdout.strip()
+        return ""
+    return asked.stdout.strip() if asked.returncode == 0 else ""
+
+
+def find() -> str:
+    """The engine's command: $GODOT, else the one mise pins (`mise which godot`), else the
+    console build in the pinned install's folder, else the first `godot` on the path.
+
+    On Windows mise's godot install provides no `godot`, only `Godot_v<version>_win64.exe` and
+    `Godot_v<version>_win64_console.exe`, so `mise which godot` fails there. The console build
+    is the one taken: it prints to the terminal that runs it, which headless runs need."""
+    if os.environ.get("GODOT"):
+        return os.environ["GODOT"]
+    pinned = ask_mise("which", "godot")
+    if pinned:
+        return pinned
+    install = ask_mise("where", "godot")
+    if install:
+        consoles = sorted(Path(install).glob("Godot_*_console.exe"))
+        if consoles:
+            return str(consoles[0])
     return shutil.which("godot") or "godot"
 
 
