@@ -37,11 +37,12 @@ def ask_mise(*words: str) -> str:
 
 def find() -> str:
     """The engine's command: $GODOT, else the one mise pins (`mise which godot`), else the
-    console build in the pinned install's folder, else the first `godot` on the path.
+    engine file in the pinned install's folder, else the first `godot` on the path.
 
-    On Windows mise's godot install provides no `godot`, only `Godot_v<version>_win64.exe` and
-    `Godot_v<version>_win64_console.exe`, so `mise which godot` fails there. The console build
-    is the one taken: it prints to the terminal that runs it, which headless runs need."""
+    On Windows and Linux mise's godot install provides no `godot`, only the release's own file
+    names (`Godot_v<version>_win64.exe` and `..._win64_console.exe`, `..._linux.x86_64`), so
+    `mise which godot` fails there. On Windows the console build is the one taken: it prints
+    to the terminal that runs it, which headless runs need."""
     if os.environ.get("GODOT"):
         return os.environ["GODOT"]
     pinned = ask_mise("which", "godot")
@@ -49,9 +50,10 @@ def find() -> str:
         return pinned
     install = ask_mise("where", "godot")
     if install:
-        consoles = sorted(Path(install).glob("Godot_*_console.exe"))
-        if consoles:
-            return str(consoles[0])
+        pattern = "Godot_*_console.exe" if sys.platform == "win32" else "Godot_*"
+        engines = sorted(path for path in Path(install).glob(pattern) if path.is_file())
+        if engines:
+            return str(engines[0])
     return shutil.which("godot") or "godot"
 
 
