@@ -37,12 +37,14 @@ class; the game itself opens and plays without it.
 Clone the repository (or make your own from it), and in it run:
 
 ```
+mise trust
 mise run setup
 ```
 
-That installs the pinned tools, turns on the commit hook, builds the C++ class and imports the
-project. In a folder that is not yet a git repository it skips the hook; run it again after
-`git init`.
+mise runs the tasks in a `mise.toml` only once you have trusted its folder, so `mise trust`
+comes first, once per clone. `mise run setup` then installs the pinned tools, turns on the
+commit hook, builds the C++ class and imports the project. In a folder that is not yet a git
+repository it skips the hook; run it again after `git init`.
 
 ## Tasks
 
