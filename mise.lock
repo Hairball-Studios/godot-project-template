@@ -266,6 +266,18 @@ checksum = "sha256:eb8a0db0aa570124f7d2a93d7c7f596e3390df5e047818d873baad32985fc
 url = "https://conda.anaconda.org/conda-forge/linux-64/zstd-1.5.7-hb78ec9c_7.conda"
 checksum = "sha256:47d682b9f6d6ec9eb1a6e6c3e75ea6273e899e78fb7fc59f81d39745009fbc60"
 
+[conda-packages.macos-arm64."clang-format-23-23.1.6-default_h8bbc02d_0"]
+url = "https://conda.anaconda.org/conda-forge/osx-arm64/clang-format-23-23.1.6-default_h8bbc02d_0.conda"
+checksum = "sha256:b9d9f0e91824b306774501beb14cc2d640c7d771d1e92ea835578aca82c5656a"
+
+[conda-packages.macos-arm64."clang-format-23.1.6-default_h13cd505_0"]
+url = "https://conda.anaconda.org/conda-forge/osx-arm64/clang-format-23.1.6-default_h13cd505_0.conda"
+checksum = "sha256:784eeff6178eedcb664fd2870d62dbe8dd626a6a49dd3ce2d32920d514c83247"
+
+[conda-packages.macos-arm64."clang-scan-deps-23.1.6-default_h8bbc02d_0"]
+url = "https://conda.anaconda.org/conda-forge/osx-arm64/clang-scan-deps-23.1.6-default_h8bbc02d_0.conda"
+checksum = "sha256:5e47d9cc59e8f1849ffdfd29138b0d14568dca76b1abdd12778f6605ee7e50cd"
+
 [conda-packages.macos-arm64."icu-78.3-py310h579977c_2"]
 url = "https://conda.anaconda.org/conda-forge/osx-arm64/icu-78.3-py310h579977c_2.conda"
 checksum = "sha256:6cdb5dee54c72e56ab189fb3ad33cb28533553d42590e7e831160248f4416a43"
